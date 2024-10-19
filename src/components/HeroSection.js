@@ -8,6 +8,7 @@ import TestimonialsSection from './TestimonialsSection';
 import PricingSection from './PricingSection';
 import CTASection from './CTASection';
 import heroImage from '../assests/download (1).png'; // Import the image for the right side
+import InstituteLoginForm from './InstituteLoginPage'
 
 const HeroSection = () => {
   const navigate = useNavigate();
@@ -47,6 +48,7 @@ const HeroSection = () => {
                 className="bg-[#003366] text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-all"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
+                href={InstituteLoginForm}
               >
                 Institute Login
               </motion.button>
@@ -63,6 +65,7 @@ const HeroSection = () => {
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
+
             >
               Welcome to SmartFee
             </motion.h2>

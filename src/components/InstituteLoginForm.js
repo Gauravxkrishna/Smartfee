@@ -10,10 +10,11 @@ const InstituteLoginForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/api/institutes/login', { name, password });
+      const response = await axios.post('http://localhost:3000/api/institutes/login', { name, password });
       if (response.status === 200) {
         // Redirect to the institute dashboard instead of using the name in the URL
         navigate('/institute/dashboard');
+        alert('Logged in successfully.');
       }
     } catch (error) {
       console.error('Login failed:', error);

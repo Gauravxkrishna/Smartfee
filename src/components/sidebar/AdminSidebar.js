@@ -1,7 +1,7 @@
 // src/components/InstituteSidebar.js
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
-import { Button } from './Button';
+import  Button  from './Button';
 import { Users, CreditCard, Moon, Sun, FileText, Shield, UserPlus, DollarSign, Banknote, Calendar } from 'lucide-react'; // Updated icons
 
 export default function InstituteSidebar() {
@@ -18,7 +18,6 @@ export default function InstituteSidebar() {
     { href: '/reports', label: 'Reports', icon: FileText }, // File text for reports
     { href: '/bulk-action', label: 'Bulk-Action', icon: Shield }, // Shield for block-action
   ];
-
   // Define payment-related routes
   const paymentItems = [
     { href: '/flex', label: 'Flex', icon: Banknote }, // Banknote icon for Flex

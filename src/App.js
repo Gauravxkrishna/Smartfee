@@ -1,6 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import HeroSection from './components/HeroSection';
+import InstituteLoginForm from './components/InstituteLoginForm'
+import AdminDashboard from './pages/AdminDashboard';
 
 
 
@@ -11,6 +13,7 @@ function App() {
         
         <Routes>
           <Route path="/" element={<HeroSection />} />
+          <Route path="/admin" element={<AdminDashboard />} />
       
           
           {/* Add institute routes */}
@@ -19,6 +22,7 @@ function App() {
           <Route path="/institute/auto-pay" element={<h1>Auto Pay</h1>} />
           <Route path="/institute/reports" element={<h1>Reports</h1>} />
           <Route path="/institute/transactions" element={<h1>Transaction History</h1>} />
+          <Route path="/institute-login" element={<InstituteLoginForm/>} />
 
           {/* Redirect to a default page for institute */}
           <Route path="/institute/*" element={<Navigate to="/institute/students" replace />} />
