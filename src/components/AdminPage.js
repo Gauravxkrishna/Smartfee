@@ -2,16 +2,16 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 const AdminPage = () => {
-  const [name, setName] = useState('');
+  const [instituteName, setInstituteName] = useState('');
   const [password, setPassword] = useState('');
 
   const handleAddInstitute = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/api/institutes', { name, password });
+      const response = await axios.post('http://localhost:3000/api/v1/createInstitute', { instituteName, password });
       alert(response.data.message);
       // Reset the form
-      setName('');
+      setInstituteName('');
       setPassword('');
     } catch (error) {
       alert('Error creating institute: ' + error.response.data.message);
@@ -26,8 +26,8 @@ const AdminPage = () => {
           <input
             type="text"
             placeholder="Institute Name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            value={instituteName}
+            onChange={(e) => setInstituteName(e.target.value)}
             required
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-4"
           />

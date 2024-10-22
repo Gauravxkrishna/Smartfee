@@ -10,10 +10,9 @@ function App() {
   return (
     <Router>
       <div>
-        
         <Routes>
           <Route path="/" element={<HeroSection />} />
-          <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/admin" element={<AdminDashboard />}/>
       
           
           {/* Add institute routes */}

@@ -1,5 +1,3 @@
-// controllers/CreateInstitute.js
-
 // Import your model (assuming you have the Institute model defined)
 const Institute = require('../model/InstituteSchema');
 

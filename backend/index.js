@@ -17,7 +17,7 @@ const instituteRoute = require('./routes/instituteRoutes');
 app.use('/api/v1', instituteRoute);
 
 // Default route
-app.get('/', (req, res) => {
+app.get('/data', (req, res) => {
     res.send(`<h1>Got the data</h1>`);
 });
 
