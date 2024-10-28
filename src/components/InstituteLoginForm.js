@@ -3,16 +3,16 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const InstituteLoginForm = () => {
-  const [name, setName] = useState('');
+  const [instituteName, setName] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:3000/api/institutes/login', { name, password });
+      const response = await axios.post('http://localhost:5000/api/institutes/login', { instituteName, password });
       if (response.status === 200) {
-        // Redirect to the institute dashboard instead of using the name in the URL
+        //Redirect to the institute dashboard instead of using the name in the URL
         navigate('/institute/dashboard');
         alert('Logged in successfully.');
       }
@@ -31,7 +31,7 @@ const InstituteLoginForm = () => {
           <input
             type="text"
             placeholder="Institute Name"
-            value={name}
+            value={instituteName}
             onChange={(e) => setName(e.target.value)}
             required
             className="border border-gray-300 p-2 mb-4 w-full"

@@ -8,7 +8,7 @@ const AdminPage = () => {
   const handleAddInstitute = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:3000/api/v1/createInstitute', { instituteName, password });
+      const response = await axios.post('http://localhost:5000/api/v1/createInstitute', { instituteName, password });
       alert(response.data.message);
       // Reset the form
       setInstituteName('');

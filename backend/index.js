@@ -1,9 +1,13 @@
 const express = require('express');
 const app = express();
+const cors = require('cors');
 
 // Load config from env file
 require('dotenv').config();
 const PORT = process.env.PORT || 4000;
+
+app.use(cors());
+app.use(express.json());
 
 // Middleware to parse JSON request body
 app.use(express.json());
@@ -15,6 +19,8 @@ dbConnect();
 // Mount the institute API route
 const instituteRoute = require('./routes/instituteRoutes');
 app.use('/api/v1', instituteRoute);
+const studentRoute = require('./routes/studentRoutes');
+app.use('/api/StudentPage', studentRoute);
 
 // Default route
 app.get('/data', (req, res) => {

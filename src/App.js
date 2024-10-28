@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-d
 import HeroSection from './components/HeroSection';
 import InstituteLoginForm from './components/InstituteLoginForm'
 import AdminDashboard from './pages/AdminDashboard';
+import StudentPage from './pages/StudentPage'
 
 
 
