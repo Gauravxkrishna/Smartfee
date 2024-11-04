@@ -111,10 +111,10 @@ export default function StudentManagement() {
   // StudentsPage component
   const StudentsPage = () => (
     <div className="flex flex-col h-screen">
-      <header className="flex items-center justify-between p-4 bg-blue-600 text-white">
+      <header className="flex items-center justify-between p-4 bg-blue-900 text-white">
         <h1 className="text-2xl font-bold">Students</h1>
-        <Button className="bg-blue-700 hover:bg-blue-800" onClick={() => setView('selectInstitute')}>
-          <Plus className="mr-2 h-4 w-4" /> New Student
+        <Button className="bg-blue-700 hover:bg-white hover:text-blue-900 transform duration-200" onClick={() => setView('selectInstitute')}>
+          <Plus className="mr-2 h-4 w-4 " /> New Student
         </Button>
       </header>
       <main className="flex-1 p-4 bg-gray-100">
@@ -125,9 +125,10 @@ export default function StudentManagement() {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          <Button className="bg-green-600 hover:bg-green-700" onClick={downloadExcel}>
-            Download Excel
-          </Button>
+        <Button className="bg-blue-900 hover:bg-white hover:text-blue-900 transition duration-200 hover:shadow-lg " onClick={downloadExcel}>
+  Download Excel
+</Button>
+
         </div>
         <div className="bg-white p-4 rounded-lg shadow">
           <h2 className="text-lg font-semibold mb-4">Student List</h2>

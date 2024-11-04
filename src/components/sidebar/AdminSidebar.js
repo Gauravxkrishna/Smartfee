@@ -12,7 +12,7 @@ export default function InstituteSidebar() {
 
   // Define dashboard routes
   const dashboardItems = [
-    { href: '/institute', label: 'Institute', icon: Users }, // Users icon for institute
+    { href: '/institute', label: 'Student', icon: Users }, // Users icon for institute
     { href: '/payments', label: 'Payments', icon: DollarSign }, // Dollar sign for payments
     { href: '/settlements', label: 'Settlements', icon: FileText }, // File text for settlements
     { href: '/reports', label: 'Reports', icon: FileText }, // File text for reports

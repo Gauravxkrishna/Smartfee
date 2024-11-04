@@ -1,8 +1,8 @@
 // src/components/InstituteSidebar.js
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
-import { Button } from './Button';
-import { Users, CreditCard, Moon, Sun, FileText, Shield, UserPlus, DollarSign, Banknote, Calendar } from 'lucide-react'; // Updated icons
+import  Button  from './Button';
+import { Users, CreditCard, Moon, Sun,  UserPlus, DollarSign, Banknote, Calendar } from 'lucide-react'; // Updated icons
 
 export default function InstituteSidebar() {
   const [darkMode, setDarkMode] = useState(false);
@@ -14,9 +14,7 @@ export default function InstituteSidebar() {
   const dashboardItems = [
     { href: '/institute', label: 'Institute', icon: Users }, // Users icon for institute
     { href: '/payments', label: 'Payments', icon: DollarSign }, // Dollar sign for payments
-    { href: '/settlements', label: 'Settlements', icon: FileText }, // File text for settlements
-    { href: '/reports', label: 'Reports', icon: FileText }, // File text for reports
-    { href: '/bulk-action', label: 'Bulk-Action', icon: Shield }, // Shield for block-action
+
   ];
 
   // Define payment-related routes
