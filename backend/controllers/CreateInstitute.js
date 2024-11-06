@@ -1,5 +1,6 @@
 // Import your model (assuming you have the Institute model defined)
 const Institute = require('../model/InstituteSchema');
+const bcrpt = require("bcrypt")
 
 // Controller function to create a new institute
 exports.createInstitute = async (req, res) => {
@@ -39,6 +40,18 @@ exports.createInstitute = async (req, res) => {
             data: savedInstitute,
             message: 'Institute created successfully.'
         });
+
+        //Hashing the password
+        let hashedpassword;
+        try{
+            hashedpassword = await bcrpt.hash(password, 10)
+        }
+        catch(err){
+            return res.status(500).json({
+                success:false,
+                message:"Error in Hashing password."
+            })
+        }
 
     } catch (error) {
         // Log the error to the console for debugging

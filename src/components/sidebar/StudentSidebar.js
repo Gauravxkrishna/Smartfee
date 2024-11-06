@@ -12,8 +12,9 @@ export default function InstituteSidebar() {
 
   // Define dashboard routes
   const dashboardItems = [
-    { href: '/institute', label: 'Institute', icon: Users }, // Users icon for institute
+    { href: '/StudentInfo', label: 'Student Info  ', icon: Users }, // Users icon for institute
     { href: '/payments', label: 'Payments', icon: DollarSign }, // Dollar sign for payments
+    { href: '/fee', label: 'Fee', icon: DollarSign }, // Dollar sign for payments
 
   ];
 
@@ -108,7 +109,7 @@ export default function InstituteSidebar() {
         <hr className={` ${darkMode ? 'border-gray-700' : 'border-blue-200'}`} />
 
         {/* Manage Users Section */}
-        <h3 className={`text-sm font-semibold ms-2 mt-2 mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-400'}`}>
+        {/* <h3 className={`text-sm font-semibold ms-2 mt-2 mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-400'}`}>
           Manage Users
         </h3>
         {manageUsersItems.map((item) => (
@@ -130,7 +131,7 @@ export default function InstituteSidebar() {
               <span className="text-base font-medium">{item.label}</span>
             </Link>
           </Button>
-        ))}
+        ))} */}
       </div>
     </div>
   );
