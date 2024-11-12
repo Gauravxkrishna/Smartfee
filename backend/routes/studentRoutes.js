@@ -3,6 +3,11 @@ const express = require('express');
 const router = express.Router();
 const Student = require('../model/studentSchema');
 
+const { loginHandler } = require('../controllers/Auth/StudentLogin'); 
+
+//Route for student login 
+router.post('/studentLogin', loginHandler); // Login route for user authentication
+
 // POST: Create a new student
 router.post('/addStudent', async (req, res) => {
   const { 
@@ -38,13 +43,14 @@ router.post('/addStudent', async (req, res) => {
       academicYear,
       rollNumber,
       primaryContact,
-      institute
+      institute,
+      role: 'student' // Set the role to 'student' for every new student
     });
 
     await newStudent.save();
     res.status(201).json({
-      data:newStudent,
-      message:'Student added successfully'
+      data: newStudent,
+      message: 'Student added successfully'
     });
   } catch (error) {
     console.error("Error saving student:", error);
@@ -80,6 +86,7 @@ router.delete('/deleteStudent/:id', async (req, res) => {
   }
 });
 
+// PUT: Update a student by ID
 router.put('/updateStudent/:id', async (req, res) => {
   const studentId = req.params.id;
 
@@ -102,6 +109,5 @@ router.put('/updateStudent/:id', async (req, res) => {
       res.status(500).json({ message: 'Server error' });
   }
 });
-
 
 module.exports = router;

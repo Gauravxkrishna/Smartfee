@@ -9,12 +9,16 @@ import PricingSection from './PricingSection';
 import CTASection from './CTASection';
 import heroImage from '../assests/download (1).png'; // Import the image for the right side
 import InstituteLoginForm from './InstituteLoginPage'
+import StudentLogin from './Login/StudentLogin';
 
 const HeroSection = () => {
   const navigate = useNavigate();
 
   const handleInstituteLogin = () => {
     navigate('/institute-login'); // Navigate to the Institute Login page
+  };
+  const handleStudentLogin = () => {
+    navigate('/student-login'); // Navigate to the Institute Login page
   };
 
   return (
@@ -36,7 +40,8 @@ const HeroSection = () => {
             </div>
             <div className="flex space-x-4">
               <motion.a
-                href="#student-login"
+                onClick={handleStudentLogin}
+                href={StudentLogin}
                 className="bg-[#003366] text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-all"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}

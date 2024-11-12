@@ -1,11 +1,12 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import HeroSection from './components/HeroSection';
-import InstituteLoginForm from './components/InstituteLoginForm'
+import InstituteLoginForm from './components/Login/InstituteLoginForm'
 import AdminDashboard from './pages/AdminDashboard';
 import InstituteDashboard from './pages/InstituteDashboard';
 import StudentDashboard from './pages/StudentDashboard';
 import ReportPage from './pages/ReportPage'
+import StudentLogin from './components/Login/StudentLogin';
 // import StudentPage from './pages/StudentPage'
 
 
@@ -29,9 +30,10 @@ function App() {
           {/* <Route path="/institute/reports" element={<ReportDashboard/>} /> */}
           <Route path="/institute/transactions" element={<h1>Transaction History</h1>} />
           <Route path="/institute-login" element={<InstituteLoginForm/>} />
+          <Route path="/student-login" element={<StudentLogin/>} />
 
           {/* Redirect to a default page for institute */}
-          <Route path="/institute/*" element={<Navigate to="/institute/students" replace />} />
+          <Route path="/institute/*" element={<Navigate to="/institute" replace />} />
         </Routes>
       </div>
     </Router>
