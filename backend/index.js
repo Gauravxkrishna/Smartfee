@@ -6,6 +6,10 @@ const cors = require('cors');
 require('dotenv').config();
 const PORT = process.env.PORT || 4000;
 
+const cookieParser = require('cookie-parser')
+
+app.use(cookieParser())
+
 app.use(cors());
 app.use(express.json());
 
@@ -20,7 +24,7 @@ dbConnect();
 const instituteRoute = require('./routes/instituteRoutes');
 app.use('/api/v1', instituteRoute);
 const studentRoute = require('./routes/studentRoutes');
-app.use('/api/StudentPage', studentRoute);
+app.use('/api/students', studentRoute);
 
 // Default route
 app.get('/data', (req, res) => {

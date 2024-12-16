@@ -2,21 +2,27 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Button } from "../components/student/button";
 import { Input } from "../components/student/input";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../components/student/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../components/student/dialog"
 import { ArrowLeft, Plus, X, Check } from "lucide-react";
 import * as XLSX from 'xlsx';
 import { Eye, Trash2, Edit } from "lucide-react";
+import EditFeePage from './EditFeePage';
+import { useStudentContext } from './StudentContext';  // Import the context
+
+
+
 
 export default function StudentManagement() {
   const [view, setView] = useState('students');
-  const [selectedInstitute, setSelectedInstitute] = useState("");
+
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
-  const [addedStudentName, setAddedStudentName] = useState("");
+  const { selectedInstitute, setSelectedInstitute, addedStudentName, setAddedStudentName, setAddedStudentDegree, AddedStudentDegree, setAddedStudentCourse, AddedStudentCourse, setAddedStudentRoll, AddedStudentRoll, setAddedStudentNumber, AddedStudentNumber, setAddedStudentEmail, AddedStudentEmail } = useStudentContext();
   const [students, setStudents] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedStudent, setSelectedStudent] = useState(null); // For viewing student details
   const [isEditMode, setIsEditMode] = useState(false); // To determine edit mode
   const [editStudentData, setEditStudentData] = useState({}); // To hold the data for the student being edited
+
 
   // Fetch students from the server
   useEffect(() => {
@@ -27,7 +33,7 @@ export default function StudentManagement() {
 
   const fetchStudents = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/StudentPage/students');
+      const response = await axios.get('http://localhost:5000/api/students/students');
       setStudents(response.data);
     } catch (error) {
       console.error("Error fetching students:", error);
@@ -43,7 +49,7 @@ export default function StudentManagement() {
 
   const deleteStudent = async (studentId) => {
     try {
-      await axios.delete(`http://localhost:5000/api/StudentPage/deleteStudent/${studentId}`);
+      await axios.delete('http://localhost:5000/api/students/deleteStudent/${studentId}');
       setStudents((prevStudents) => prevStudents.filter((student) => student._id !== studentId));
       alert("Student deleted successfully.");
     } catch (error) {
@@ -77,7 +83,8 @@ export default function StudentManagement() {
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "Students");
 
-    const fileName = `students_${new Date().toISOString().slice(0, 10)}.xlsx`;
+    const fileName = `students_${new Date().toISOString().slice(0, 10)}
+  }.xlsx`;
     XLSX.writeFile(workbook, fileName);
   };
 
@@ -108,13 +115,15 @@ export default function StudentManagement() {
     </Dialog>
   );
 
+
+
   // StudentsPage component
   const StudentsPage = () => (
     <div className="flex flex-col h-screen">
-      <header className="flex items-center justify-between p-4 bg-blue-900 text-white">
+      <header className="flex items-center justify-between p-4 bg-blue-600 text-white">
         <h1 className="text-2xl font-bold">Students</h1>
-        <Button className="bg-blue-700 hover:bg-white hover:text-blue-900 transform duration-200" onClick={() => setView('selectInstitute')}>
-          <Plus className="mr-2 h-4 w-4 " /> New Student
+        <Button className="bg-blue-700 hover:bg-blue-800" onClick={() => setView('selectInstitute')}>
+          <Plus className="mr-2 h-4 w-4" /> New Student
         </Button>
       </header>
       <main className="flex-1 p-4 bg-gray-100">
@@ -125,10 +134,9 @@ export default function StudentManagement() {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-        <Button className="bg-blue-900 hover:bg-white hover:text-blue-900 transition duration-200 hover:shadow-lg " onClick={downloadExcel}>
-  Download Excel
-</Button>
-
+          <Button className="bg-green-600 hover:bg-green-700" onClick={downloadExcel}>
+            Download Excel
+          </Button>
         </div>
         <div className="bg-white p-4 rounded-lg shadow">
           <h2 className="text-lg font-semibold mb-4">Student List</h2>
@@ -149,51 +157,51 @@ export default function StudentManagement() {
                 {filteredStudents.map((student, index) => (
                   <tr
                     key={student._id}
-                    className={`border-b border-gray-300 ${index % 2 === 0 ? 'bg-gray-50' : ''}`}
+                    className={`border - b border-gray-300 ${index % 2 === 0 ? 'bg-gray-50' : ''}`}
                   >
-                    <td className="py-2 px-4 border border-gray-300">{student.name}</td>
-                    <td className="py-2 px-4 border border-gray-300">{student.degree}</td>
-                    <td className="py-2 px-4 border border-gray-300">{student.course}</td>
-                    <td className="py-2 px-4 border border-gray-300">{student.academicYear}</td>
-                    <td className="py-2 px-4 border border-gray-300">{student.rollNumber}</td>
-                    <td className="py-2 px-4 border border-gray-300">{student.institute}</td>
-                    <td className="py-2 px-4 border border-gray-300">
-                      <div className="flex items-center  justify-center space-x-4">
-                        <Button
-                          className="ml-4 bg-white-600 hover:bg-black-100"
-                          variant="ghost"
-                          size="icon"
-                          onClick={() => setSelectedStudent(student)}
-                        >
-                          <Eye className="h-6 w-6" />
-                        </Button>
-                        <Button
-                          className="mr-4 bg-white-600 hover:bg-black-100"
-                          variant="ghost"
-                          size="icon"
-                          onClick={() => confirmDeleteStudent(student._id)}
-                        >
-                          <Trash2 className="h-6 w-6" />
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          onClick={() => openEditStudentDialog(student)} // Call a function to open the edit dialog
-                        >
-                          <Edit className="h-6 w-6" />
-                        </Button>
-                      </div>
-                    </td>
-                  </tr>
+                <td className="py-2 px-4 border border-gray-300">{student.name}</td>
+                <td className="py-2 px-4 border border-gray-300">{student.degree}</td>
+                <td className="py-2 px-4 border border-gray-300">{student.course}</td>
+                <td className="py-2 px-4 border border-gray-300">{student.academicYear}</td>
+                <td className="py-2 px-4 border border-gray-300">{student.rollNumber}</td>
+                <td className="py-2 px-4 border border-gray-300">{student.institute}</td>
+                <td className="py-2 px-4 border border-gray-300">
+                  <div className="flex items-center  justify-center space-x-4">
+                    <Button
+                      className="ml-4 bg-white-600 hover:bg-black-100"
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => setSelectedStudent(student)}
+                    >
+                      <Eye className="h-6 w-6" />
+                    </Button>
+                    <Button
+                      className="mr-4 bg-white-600 hover:bg-black-100"
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => confirmDeleteStudent(student._id)}
+                    >
+                      <Trash2 className="h-6 w-6" />
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => openEditStudentDialog(student)} // Call a function to open the edit dialog
+                    >
+                      <Edit className="h-6 w-6" />
+                    </Button>
+                  </div>
+                </td>
+              </tr>
                 ))}
-              </tbody>
+            </tbody>
             </table>
-          ) : (
-            <p className="text-gray-500">No students found. Please add a new student.</p>
+        ) : (
+        <p className="text-gray-500">No students found. Please add a new student.</p>
           )}
-        </div>
-      </main>
-    </div> 
+    </div>
+      </main >
+    </div >
   );
 
   const openEditStudentDialog = (student) => {
@@ -208,12 +216,12 @@ export default function StudentManagement() {
 
   const saveEditedStudent = async () => {
     try {
-      await axios.put(`http://localhost:5000/api/StudentPage/updateStudent/${editStudentData._id}`, editStudentData);
-      setStudents((prevStudents) =>
-        prevStudents.map((student) =>
-          student._id === editStudentData._id ? editStudentData : student
-        )
-      );
+      await axios.put('http://localhost:5000/api/students/updateStudent/${editStudentData._id}, editStudentData');
+        setStudents((prevStudents) =>
+          prevStudents.map((student) =>
+            student._id === editStudentData._id ? editStudentData : student
+          )
+        );
       setIsEditMode(false); // Close the dialog
     } catch (error) {
       console.error("Error updating student:", error);
@@ -283,12 +291,19 @@ export default function StudentManagement() {
       };
 
       try {
-        const response = await axios.post('http://localhost:5000/api/StudentPage/addStudent', studentData, {
+        const response = await axios.post('http://localhost:5000/api/students/addStudent', studentData, {
           headers: {
             'Content-Type': 'application/json'
           }
         });
-        setAddedStudentName(name);
+        setAddedStudentName(studentData.name);
+        setAddedStudentDegree(studentData.degree);
+        setAddedStudentCourse(studentData.course);
+        setAddedStudentRoll(studentData.rollNumber);
+        setAddedStudentNumber(studentData.primaryContact.number);
+        setAddedStudentEmail(studentData.primaryContact.email);
+
+
         setShowSuccessPopup(true);
       } catch (error) {
         console.error("Error adding student:", error.response?.data || error.message);
@@ -389,99 +404,113 @@ export default function StudentManagement() {
         <div className="p-6 text-center">
           <h2 className="text-xl font-semibold mb-2">Student Added</h2>
           <p className="mb-4">{addedStudentName} has been added to {selectedInstitute}</p>
-          <Button className="w-full" onClick={() => {
-            setShowSuccessPopup(false);
-            setView('students');
-          }}>
-            View Student
-          </Button>
+
+          <div className="flex flex-col items-center justify-center gap-4">
+            <Button className="w-full" onClick={() => {
+              setShowSuccessPopup(false);
+              setView('students');
+            }}>
+              View Student
+            </Button>
+            <Button className="w-full bg-blue-600 hover:bg-blue-700" onClick={() => {
+              setShowSuccessPopup(false);
+              setView('editFee');
+            }}>
+              Confirm Student Fee
+            </Button>
+          </div>
         </div>
+
       </DialogContent>
     </Dialog>
   );
 
+
+
   return (
 
     <div>
-     {isEditMode && (
-  <Dialog open={isEditMode} onOpenChange={() => setIsEditMode(false)}>
-    <DialogContent className="sm:max-w-[425px]">
-      <DialogHeader>
-        <DialogTitle>Edit Student</DialogTitle>
-        <Button variant="ghost" size="icon" onClick={() => setIsEditMode(false)}>
-          <X className="h-4 w-4" />
-        </Button>
-      </DialogHeader>
-      <div className="py-4">
-        <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700" htmlFor="name">Name</label>
-          <Input
-            id="name"
-            name="name"
-            value={editStudentData.name}
-            onChange={handleEditStudentChange}
-          />
-        </div>
-        <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700" htmlFor="degree">Degree</label>
-          <Input
-            id="degree"
-            name="degree"
-            value={editStudentData.degree}
-            onChange={handleEditStudentChange}
-          />
-        </div>
-        <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700" htmlFor="course">Course</label>
-          <Input
-            id="course"
-            name="course"
-            value={editStudentData.course}
-            onChange={handleEditStudentChange}
-          />
-        </div>
-        <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700" htmlFor="academicYear">Academic Year</label>
-          <Input
-            id="academicYear"
-            name="academicYear"
-            value={editStudentData.academicYear}
-            onChange={handleEditStudentChange}
-          />
-        </div>
-        <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700" htmlFor="rollNumber">Roll Number</label>
-          <Input
-            id="rollNumber"
-            name="rollNumber"
-            value={editStudentData.rollNumber}
-            onChange={handleEditStudentChange}
-          />
-        </div>
-        <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700" htmlFor="institute">Institute</label>
-          <Input
-            id="institute"
-            name="institute"
-            value={editStudentData.institute}
-            onChange={handleEditStudentChange}
-          />
-        </div>
-      </div>
-      <Button onClick={saveEditedStudent}>
-        <Check className="mr-2 h-4 w-4" /> Save Changes
-      </Button>
-    </DialogContent>
-  </Dialog>
-)}
+      {isEditMode && (
+        <Dialog open={isEditMode} onOpenChange={() => setIsEditMode(false)}>
+          <DialogContent className="sm:max-w-[425px]">
+            <DialogHeader>
+              <DialogTitle>Edit Student</DialogTitle>
+              <Button variant="ghost" size="icon" onClick={() => setIsEditMode(false)}>
+                <X className="h-4 w-4" />
+              </Button>
+            </DialogHeader>
+            <div className="py-4">
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700" htmlFor="name">Name</label>
+                <Input
+                  id="name"
+                  name="name"
+                  value={editStudentData.name}
+                  onChange={handleEditStudentChange}
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700" htmlFor="degree">Degree</label>
+                <Input
+                  id="degree"
+                  name="degree"
+                  value={editStudentData.degree}
+                  onChange={handleEditStudentChange}
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700" htmlFor="course">Course</label>
+                <Input
+                  id="course"
+                  name="course"
+                  value={editStudentData.course}
+                  onChange={handleEditStudentChange}
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700" htmlFor="academicYear">Academic Year</label>
+                <Input
+                  id="academicYear"
+                  name="academicYear"
+                  value={editStudentData.academicYear}
+                  onChange={handleEditStudentChange}
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700" htmlFor="rollNumber">Roll Number</label>
+                <Input
+                  id="rollNumber"
+                  name="rollNumber"
+                  value={editStudentData.rollNumber}
+                  onChange={handleEditStudentChange}
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700" htmlFor="institute">Institute</label>
+                <Input
+                  id="institute"
+                  name="institute"
+                  value={editStudentData.institute}
+                  onChange={handleEditStudentChange}
+                />
+              </div>
+            </div>
+            <Button onClick={saveEditedStudent}>
+              <Check className="mr-2 h-4 w-4" /> Save Changes
+            </Button>
+          </DialogContent>
+        </Dialog>
+      )}
 
-     
-      
+
+
       {view === 'students' && <StudentsPage />}
       {view === 'selectInstitute' && <SelectInstituteDialog />}
       {view === 'createStudent' && <CreateStudentForm />}
+      {view === 'editFee' && <EditFeePage />}
       {selectedStudent && <StudentDetail student={selectedStudent} />}
       {showSuccessPopup && <SuccessPopup />}
     </div>
+
   );
 }
