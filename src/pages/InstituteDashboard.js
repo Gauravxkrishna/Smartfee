@@ -1,9 +1,9 @@
 import React from 'react'
 import StudentPage from '../pages/StudentPage'
-import InstituteSidebar from '../components/sidebar/AdminSidebar'
+import InstituteSidebar from '../components/sidebar/InstituteSidebar'
 import Navbar from '../components/Navbar/Navbar'
 
-function AdminDashboard() {
+function InstituteDashboard() {
   return (
     <div className="flex h-screen">
       {/* Sidebar with fixed position */}
@@ -27,4 +27,4 @@ function AdminDashboard() {
   )
 }
 
-export default AdminDashboard;
+export default InstituteDashboard;

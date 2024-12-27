@@ -11,6 +11,8 @@ import EditFeePage from './pages/EditFeePage';
 import FeeSummaryPage from './pages/FeeSummaryPage';
 import StudentPage from './pages/StudentPage';
 import { StudentProvider } from './pages/StudentContext';
+import TransactionPage from './pages/TransactionPage'
+import BulkActionPage from './pages/BulkActionPage'
 // import StudentPage from './pages/StudentPage'
 
 function App() {
@@ -41,6 +43,9 @@ function App() {
           <Route path="/institute/transactions" element={<h1>Transaction History</h1>} />
           <Route path="/institute-login" element={<InstituteLoginForm/>} />
           <Route path="/student-login" element={<StudentLogin/>} />
+          <Route path="/transaction" element={<h1><TransactionPage/> </h1>} />
+          <Route path="/bulk-action" element={<h1><BulkActionPage/> </h1>} />
+          {/* <Route path="/bulk-action" element={<BulkActionPage/>} /> */}
 
           {/* Redirect to a default page for institute */}
           <Route path="/institute/*" element={<Navigate to="/institute" replace />} />

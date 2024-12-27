@@ -1,10 +1,10 @@
-// src/components/InstituteSidebar.js
+// src/components/AdminSidebar.js
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import  Button  from './Button';
 import { Users, CreditCard, Moon, Sun, FileText, Shield, UserPlus, DollarSign, Banknote, Calendar } from 'lucide-react'; // Updated icons
 
-export default function InstituteSidebar() {
+export default function AdminSidebar() {
   const [darkMode, setDarkMode] = useState(false);
 
   // Toggle dark mode
@@ -12,8 +12,8 @@ export default function InstituteSidebar() {
 
   // Define dashboard routes
   const dashboardItems = [
-    { href: '/institute', label: 'Student', icon: Users }, // Users icon for institute
-    { href: '/payments', label: 'Payments', icon: DollarSign }, // Dollar sign for payments
+    { href: '/institute', label: 'Institute', icon: Users }, // Users icon for institute
+    { href: '/transaction', label: 'Transaction', icon: DollarSign }, // Dollar sign for payments
     { href: '/settlements', label: 'Settlements', icon: FileText }, // File text for settlements
     { href: '/reports', label: 'Reports', icon: FileText }, // File text for reports
     { href: '/bulk-action', label: 'Bulk-Action', icon: Shield }, // Shield for block-action
@@ -21,7 +21,7 @@ export default function InstituteSidebar() {
   // Define payment-related routes
   const paymentItems = [
     { href: '/flex', label: 'Flex', icon: Banknote }, // Banknote icon for Flex
-    { href: '/cred', label: 'Cred', icon: CreditCard }, // CreditCard icon for Cred
+    { href: '/offline-payment', label: 'Offline Payment', icon: CreditCard }, // CreditCard icon for Cred
     { href: '/auto-pay', label: 'Autopay', icon: Calendar }, // Calendar icon for Autopay (for scheduled payments)
   ];
 

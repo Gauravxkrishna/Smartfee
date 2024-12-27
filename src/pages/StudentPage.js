@@ -49,7 +49,7 @@ export default function StudentManagement() {
 
   const deleteStudent = async (studentId) => {
     try {
-      await axios.delete('http://localhost:5000/api/students/deleteStudent/${studentId}');
+      await axios.delete(`http://localhost:5000/api/students/deleteStudent/${studentId}`);
       setStudents((prevStudents) => prevStudents.filter((student) => student._id !== studentId));
       alert("Student deleted successfully.");
     } catch (error) {
@@ -91,28 +91,61 @@ export default function StudentManagement() {
   // StudentDetail component
   const StudentDetail = ({ student }) => (
     <Dialog open={!!student} onOpenChange={() => setSelectedStudent(null)}>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[500px]  shadow-lg rounded-lg p-6">
         <DialogHeader>
-          <DialogTitle className="flex justify-between items-center">
-            Student Details
-            <Button variant="ghost" size="icon" onClick={() => setSelectedStudent(null)}>
-              <X className="h-4 w-4" />
-            </Button>
+          <DialogTitle className="flex justify-between items-center text-xl font-semibold text-gray-800">
+            <div className='flex justify-between'>
+
+              <div>
+                <span className="flex-1">Student Details</span>
+              </div>
+              <div>
+
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="text-white hover:text-black bg-red-600 transition-colors"
+                  onClick={() => setSelectedStudent(null)}
+                >
+                  <X className="h-5 w-5" />
+                </Button>
+              </div>
+            </div>
           </DialogTitle>
         </DialogHeader>
-        <div className="py-4">
-          <p><strong>Name:</strong> {student.name}</p>
-          <p><strong>Degree:</strong> {student.degree}</p>
-          <p><strong>Course:</strong> {student.course}</p>
-          <p><strong>Academic Year:</strong> {student.academicYear}</p>
-          <p><strong>Roll Number:</strong> {student.rollNumber}</p>
-          <p><strong>Institute:</strong> {student.institute}</p>
-          <p><strong>Primary Contact Name:</strong> {student.primaryContact.name}</p>
-          <p><strong>Primary Contact Number:</strong> {student.primaryContact.number}</p>
-          <p><strong>Primary Contact Email:</strong> {student.primaryContact.email}</p>
+
+        <div className="py-4 space-y-3">
+          <p className="text-gray-700">
+            <strong className="font-medium text-gray-900">Name:</strong> {student.name}
+          </p>
+          <p className="text-gray-700">
+            <strong className="font-medium text-gray-900">Degree:</strong> {student.degree}
+          </p>
+          <p className="text-gray-700">
+            <strong className="font-medium text-gray-900">Course:</strong> {student.course}
+          </p>
+          <p className="text-gray-700">
+            <strong className="font-medium text-gray-900">Academic Year:</strong> {student.academicYear}
+          </p>
+          <p className="text-gray-700">
+            <strong className="font-medium text-gray-900">Roll Number:</strong> {student.rollNumber}
+          </p>
+          <p className="text-gray-700">
+            <strong className="font-medium text-gray-900">Institute:</strong> {student.institute}
+          </p>
+          <p className="text-gray-700">
+            <strong className="font-medium text-gray-900">Primary Contact Name:</strong> {student.primaryContact.name}
+          </p>
+          <p className="text-gray-700">
+            <strong className="font-medium text-gray-900">Primary Contact Number:</strong> {student.primaryContact.number}
+          </p>
+          <p className="text-gray-700">
+            <strong className="font-medium text-gray-900">Primary Contact Email:</strong> {student.primaryContact.email}
+          </p>
         </div>
       </DialogContent>
     </Dialog>
+
   );
 
 
@@ -134,72 +167,74 @@ export default function StudentManagement() {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          <Button className="bg-green-600 hover:bg-green-700" onClick={downloadExcel}>
+          <Button className="bg-blue-900 hover:bg-blue-700" onClick={downloadExcel}>
             Download Excel
           </Button>
         </div>
         <div className="bg-white p-4 rounded-lg shadow">
           <h2 className="text-lg font-semibold mb-4">Student List</h2>
           {filteredStudents.length > 0 ? (
-            <table className="min-w-full bg-white border-collapse border border-gray-300">
+            <table className="min-w-full bg-white">
               <thead>
                 <tr className="bg-gray-200">
-                  <th className="py-2 px-4 border border-gray-300">Name</th>
-                  <th className="py-2 px-4 border border-gray-300">Degree</th>
-                  <th className="py-2 px-4 border border-gray-300">Course</th>
-                  <th className="py-2 px-4 border border-gray-300">Academic Year</th>
-                  <th className="py-2 px-4 border border-gray-300">Roll Number</th>
-                  <th className="py-2 px-4 border border-gray-300">Institute</th>
-                  <th className="py-2 px-4 border border-gray-300">Actions</th>
+                  <th className="py-2 px-4">Name</th>
+                  <th className="py-2 px-4">Degree</th>
+                  <th className="py-2 px-4">Course</th>
+                  <th className="py-2 px-4">Academic Year</th>
+                  <th className="py-2 px-4">Roll Number</th>
+                  <th className="py-2 px-4">Institute</th>
+                  <th className="py-2 px-4">Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {filteredStudents.map((student, index) => (
                   <tr
                     key={student._id}
-                    className={`border - b border-gray-300 ${index % 2 === 0 ? 'bg-gray-50' : ''}`}
+                    className={`${index % 2 === 1 ? 'bg-gray-100' : ''}`}
                   >
-                <td className="py-2 px-4 border border-gray-300">{student.name}</td>
-                <td className="py-2 px-4 border border-gray-300">{student.degree}</td>
-                <td className="py-2 px-4 border border-gray-300">{student.course}</td>
-                <td className="py-2 px-4 border border-gray-300">{student.academicYear}</td>
-                <td className="py-2 px-4 border border-gray-300">{student.rollNumber}</td>
-                <td className="py-2 px-4 border border-gray-300">{student.institute}</td>
-                <td className="py-2 px-4 border border-gray-300">
-                  <div className="flex items-center  justify-center space-x-4">
-                    <Button
-                      className="ml-4 bg-white-600 hover:bg-black-100"
-                      variant="ghost"
-                      size="icon"
-                      onClick={() => setSelectedStudent(student)}
-                    >
-                      <Eye className="h-6 w-6" />
-                    </Button>
-                    <Button
-                      className="mr-4 bg-white-600 hover:bg-black-100"
-                      variant="ghost"
-                      size="icon"
-                      onClick={() => confirmDeleteStudent(student._id)}
-                    >
-                      <Trash2 className="h-6 w-6" />
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      onClick={() => openEditStudentDialog(student)} // Call a function to open the edit dialog
-                    >
-                      <Edit className="h-6 w-6" />
-                    </Button>
-                  </div>
-                </td>
-              </tr>
+                    <td className="py-2 px-4">{student.name}</td>
+                    <td className="py-2 px-4">{student.degree}</td>
+                    <td className="py-2 px-4">{student.course}</td>
+                    <td className="py-2 px-4">{student.academicYear}</td>
+                    <td className="py-2 px-4">{student.rollNumber}</td>
+                    <td className="py-2 px-4">{student.institute}</td>
+                    <td className="py-2 px-4">
+                      <div className="flex items-center justify-center space-x-4">
+                        <Button
+                          className="ml-4 bg-white-600 hover:bg-black-100"
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => setSelectedStudent(student)}
+                        >
+                          <Eye className="h-6 w-6" />
+                        </Button>
+                        <Button
+                          className="mr-4 bg-white-600 hover:bg-black-100"
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => confirmDeleteStudent(student._id)}
+                        >
+                          <Trash2 className="h-6 w-6" />
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => openEditStudentDialog(student)}
+                        >
+                          <Edit className="h-6 w-6" />
+                        </Button>
+                      </div>
+                    </td>
+                  </tr>
                 ))}
-            </tbody>
+              </tbody>
             </table>
-        ) : (
-        <p className="text-gray-500">No students found. Please add a new student.</p>
+          ) : (
+            <p className="text-gray-500">No students found. Please add a new student.</p>
           )}
-    </div>
+        </div>
+
+
       </main >
     </div >
   );
@@ -217,11 +252,11 @@ export default function StudentManagement() {
   const saveEditedStudent = async () => {
     try {
       await axios.put('http://localhost:5000/api/students/updateStudent/${editStudentData._id}, editStudentData');
-        setStudents((prevStudents) =>
-          prevStudents.map((student) =>
-            student._id === editStudentData._id ? editStudentData : student
-          )
-        );
+      setStudents((prevStudents) =>
+        prevStudents.map((student) =>
+          student._id === editStudentData._id ? editStudentData : student
+        )
+      );
       setIsEditMode(false); // Close the dialog
     } catch (error) {
       console.error("Error updating student:", error);

@@ -12,7 +12,7 @@ function AdminDashboard() {
 
       {/* Main content area takes remaining space */}
       <div className="flex-grow bg-white p-6 overflow-y-auto">
-        <StudentPage />
+        {/* <StudentPage /> */}
       </div>
     </div>
   )
