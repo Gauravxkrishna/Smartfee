@@ -1,13 +1,13 @@
 import React from 'react'
 import ReportDashboard from '../pages/Report/ReportDashboard'
-import AdminSidebar from '../components/sidebar/AdminSidebar'
+import InstituteSidebar from '../components/sidebar/InstituteSidebar'
 
 function AdminDashboard() {
   return (
     <div className='flex h-screen'>
       {/* Sidebar with fixed width */}
       <div className="w-64 bg-gray-100">
-        <AdminSidebar />
+        <InstituteSidebar />
       </div>
 
       {/* Main content area takes remaining space */}
