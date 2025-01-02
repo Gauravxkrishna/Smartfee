@@ -14,7 +14,7 @@ export default function AdminSidebar() {
   const dashboardItems = [
     { href: '/institute', label: 'Institute', icon: Users }, // Users icon for institute
     { href: '/transaction', label: 'Transaction', icon: DollarSign }, // Dollar sign for payments
-    { href: '/settlements', label: 'Settlements', icon: FileText }, // File text for settlements
+    // { href: '/settlements', label: 'Settlements', icon: FileText }, // File text for settlements
     { href: '/reports', label: 'Reports', icon: FileText }, // File text for reports
     { href: '/bulk-action', label: 'Bulk-Action', icon: Shield }, // Shield for block-action
   ];
