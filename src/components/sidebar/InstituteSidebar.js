@@ -22,7 +22,7 @@ export default function InstituteSidebar() {
   // Define payment-related routes
   const paymentItems = [
     { href: '/flex', label: 'Flex', icon: Banknote }, // Banknote icon for Flex
-    // { href: '/cred', label: 'Cred', icon: CreditCard }, // CreditCard icon for Cred
+    { href: '/offline-payment', label: 'Offline payment', icon: CreditCard }, // CreditCard icon for Cred
     { href: '/auto-pay', label: 'Autopay', icon: Calendar }, // Calendar icon for Autopay (for scheduled payments)
   ];
 

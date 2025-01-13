@@ -1,5 +1,5 @@
 import React from 'react'
-import ReportDashboard from '../pages/Report/ReportDashboard'
+import ReportDashboard from './Report/ReportDashboard'
 import InstituteSidebar from '../components/sidebar/InstituteSidebar'
 
 function AdminDashboard() {
@@ -12,7 +12,7 @@ function AdminDashboard() {
 
       {/* Main content area takes remaining space */}
       <div className="flex-grow bg-white p-6 overflow-y-auto">
-        <ReportDashboard />
+        {/* <ReportDashboard /> */}
       </div>
     </div>
   )

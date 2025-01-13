@@ -13,6 +13,7 @@ import StudentPage from './pages/StudentPage';
 import { StudentProvider } from './pages/StudentContext';
 import TransactionPage from './pages/TransactionPage'
 import BulkActionPage from './pages/BulkActionPage'
+import OfflinePaymentPage from './pages/offlinePaymentPage'
 // import StudentPage from './pages/StudentPage'
 import Install from './pages/Install';
 
@@ -47,6 +48,7 @@ function App() {
           <Route path="/student-login" element={<StudentLogin/>} />
           <Route path="/transaction" element={<h1><TransactionPage/> </h1>} />
           <Route path="/bulk-action" element={<h1><BulkActionPage/> </h1>} />
+          <Route path="/offline-payment" element={<h1><OfflinePaymentPage/> </h1>} />
           {/* <Route path="/bulk-action" element={<BulkActionPage/>} /> */}
 
           {/* Redirect to a default page for institute */}
