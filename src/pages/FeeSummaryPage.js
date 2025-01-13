@@ -11,8 +11,6 @@ function FeeSummaryPage() {
     unpaidAmount: 0,
   });
 
- 
-
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const success = urlParams.get('success');
@@ -33,21 +31,22 @@ function FeeSummaryPage() {
         (sum, component) => sum + (parseFloat(component.paidAmount) || 0),
         0
       );
+      const discount = parsedComponents.reduce(
+        (sum, component) => sum + (parseFloat(component.discount) || 0),
+        0
+      );
 
       setSummaryData({
         totalAmount: total,
         paidAmount: paid,
-        unpaidAmount: total - paid,
+        unpaidAmount: total - paid - discount,
       });
     }
   }, []);
 
-  const handleEdit = () => {
-    setShowNotification(false);
-  };
-
   return (
     <div className="min-h-screen bg-gray-50">
+      {/* Success Notification */}
       {showNotification && (
         <div className="fixed top-0 left-0 right-0 p-4 bg-green-100 border-b border-green-300">
           <div className="max-w-4xl mx-auto flex justify-between items-center">
@@ -62,16 +61,15 @@ function FeeSummaryPage() {
         </div>
       )}
 
+      {/* Header Section */}
       <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white p-6">
         <div className="max-w-4xl mx-auto">
           <h1 className="text-2xl font-semibold">Fee Summary</h1>
         </div>
       </div>
 
+      {/* Fee Details Table */}
       <div className="max-w-4xl mx-auto p-6">
-        
-
-        {/* Fee Summary Details Section */}
         <div className="bg-white shadow-lg rounded-lg mb-6">
           <h2 className="text-2xl font-bold p-6 border-b">Fee Summary Details</h2>
           <div className="overflow-x-auto">
@@ -86,34 +84,39 @@ function FeeSummaryPage() {
                 </tr>
               </thead>
               <tbody>
-                {feeComponents.map((component) => (
-                  <tr key={component.name} className="border-b">
+                {feeComponents.map((component, index) => (
+                  <tr key={index} className="border-b">
                     <td className="p-2">{component.name}</td>
-                    <td className="p-2">₹{component.feeAmount}</td>
-                    <td className="p-2">₹{component.paidAmount}</td>
-                    <td className="p-2">₹{component.discount}</td>
-                    <td className="p-2">₹{component.payableFee.toLocaleString('en-IN')}</td>
+                    <td className="p-2">₹{parseFloat(component.feeAmount).toLocaleString('en-IN')}</td>
+                    <td className="p-2">₹{parseFloat(component.paidAmount).toLocaleString('en-IN')}</td>
+                    <td className="p-2">₹{parseFloat(component.discount).toLocaleString('en-IN')}</td>
+                    <td className="p-2 font-medium">
+                      ₹{parseFloat(component.payableFee).toLocaleString('en-IN')}
+                    </td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
 
-          {/* Fee Summary Box */}
+          {/* Fee Summary Overview */}
           <div className="p-6">
             <div className="flex justify-between gap-6">
+              {/* Total Fee */}
               <div className="flex flex-col items-center p-4 bg-blue-100 rounded-lg w-1/3">
                 <span className="text-sm font-medium">Total Fee Amount</span>
                 <span className="text-xl font-bold text-blue-600">
                   ₹{summaryData.totalAmount.toLocaleString('en-IN')}
                 </span>
               </div>
+              {/* Total Paid */}
               <div className="flex flex-col items-center p-4 bg-blue-100 rounded-lg w-1/3">
                 <span className="text-sm font-medium">Total Paid Amount</span>
                 <span className="text-xl font-bold text-blue-600">
                   ₹{summaryData.paidAmount.toLocaleString('en-IN')}
                 </span>
               </div>
+              {/* Remaining Unpaid */}
               <div className="flex flex-col items-center p-4 bg-blue-100 rounded-lg w-1/3">
                 <span className="text-sm font-medium">Remaining Unpaid Amount</span>
                 <span className="text-xl font-bold text-blue-600">
@@ -123,13 +126,19 @@ function FeeSummaryPage() {
             </div>
           </div>
 
-          <div className="flex justify-end p-6 border-t">
+          {/* Action Buttons */}
+          <div className="flex justify-end p-6 border-t gap-4">
             <Link
               to="/student/editFeePage"
-              onClick={handleEdit}
               className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
             >
               Edit Details
+            </Link>
+            <Link
+              to="/student/install"
+              className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+            >
+              Set Installment
             </Link>
           </div>
         </div>

@@ -161,12 +161,12 @@ export default function StudentManagement() {
       </header>
       <main className="flex-1 p-4 bg-gray-100">
         <div className="flex flex-wrap gap-2 mb-4">
-          <Input
-            className="w-40"
-            placeholder="Search by name, institute, or roll number"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
+        <Input
+        className="w-40"
+        placeholder="Search by name, institute, or roll number"
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+      />
           <Button className="bg-blue-900 hover:bg-blue-700" onClick={downloadExcel}>
             Download Excel
           </Button>
@@ -241,6 +241,7 @@ export default function StudentManagement() {
 
   const openEditStudentDialog = (student) => {
     setEditStudentData(student);
+    console.log(editStudentData)
     setIsEditMode(true); // Set to edit mode
   };
 
@@ -251,7 +252,7 @@ export default function StudentManagement() {
 
   const saveEditedStudent = async () => {
     try {
-      await axios.put('http://localhost:5000/api/students/updateStudent/${editStudentData._id}, editStudentData');
+      await axios.put(`http://localhost:5000/api/students/updateStudent/${editStudentData._id}`, editStudentData);
       setStudents((prevStudents) =>
         prevStudents.map((student) =>
           student._id === editStudentData._id ? editStudentData : student

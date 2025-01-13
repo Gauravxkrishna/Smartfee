@@ -14,6 +14,7 @@ import { StudentProvider } from './pages/StudentContext';
 import TransactionPage from './pages/TransactionPage'
 import BulkActionPage from './pages/BulkActionPage'
 // import StudentPage from './pages/StudentPage'
+import Install from './pages/Install';
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
           <Route path="/student/FeeSummaryPage" element={<FeeSummaryPage />}/>
           <Route path="/student/Studentpage" element={<StudentPage />}/>
           <Route path="/student/StudentProvider" element={<StudentProvider />}/>
+          <Route path="/student/install" element={<Install />} />
       
           
           {/* Add institute routes */}

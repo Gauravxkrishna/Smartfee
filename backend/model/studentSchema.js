@@ -23,17 +23,22 @@ const studentSchema = new mongoose.Schema({
     required: true, 
     unique: true // Ensures roll numbers are unique
   },
-  parentName: {
-    type: String, 
-    required: true 
-  },
-  parentEmail: {
-    type: String, 
-    required: true 
-  },
-  parentContactNumber: { // Corrected typo in "parentContactNumbet"
-    type: Number, 
-    required: true 
+  primaryContact: {
+    name: { 
+      type: String, 
+      required: true 
+
+    },
+    number: { 
+      type: String,
+       required: true
+
+     },
+    email: {
+       type: String, 
+      required: true
+
+     },
   },
   institute: { 
     type: String, 
@@ -41,10 +46,10 @@ const studentSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    enum: ['student'], // Restrict role to 'student'
-    default: 'student', // Default role is 'student'
-    required: true
+    enum: ['student'], // Limit the role to only 'student'
+    default: 'student', // Set default role as 'student'
+    required: true,
   }
-}, { timestamps: true }); // Adds createdAt and updatedAt fields automatically
+}, { timestamps: true });
 
 module.exports = mongoose.model('Student', studentSchema);
