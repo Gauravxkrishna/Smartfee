@@ -1,6 +1,7 @@
 import React from 'react'
 import ReportDashboard from './Report/ReportDashboard'
 import InstituteSidebar from '../components/sidebar/InstituteSidebar'
+import OfflinePayments from '../components/offlinePayment/OfflinePayments'
 
 function AdminDashboard() {
   return (
@@ -12,7 +13,7 @@ function AdminDashboard() {
 
       {/* Main content area takes remaining space */}
       <div className="flex-grow bg-white p-6 overflow-y-auto">
-        {/* <ReportDashboard /> */}
+        <OfflinePayments />
       </div>
     </div>
   )
