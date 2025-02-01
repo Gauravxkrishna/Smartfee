@@ -60,6 +60,8 @@ function EditFeePage() {
   };
 
   const handleSave = async () => {
+    const feeSummary = calculateFeeSummary(feeComponents);
+  
     try {
       const response = await axios.post('http://localhost:5000/api/students/addStudent', {
         name: addedStudentName,
@@ -74,6 +76,7 @@ function EditFeePage() {
         },
         institute: selectedInstitute,
         feeDetails: feeComponents, // Save fee details
+        feeSummary: feeSummary, // Save fee summary
       });
   
       console.log("Student saved successfully:", response.data);
@@ -86,6 +89,21 @@ function EditFeePage() {
       }
     }
   };
+  
+  // Helper function to calculate fee summary
+  const calculateFeeSummary = (feeDetails) => {
+    const totalAmount = feeDetails.reduce((sum, component) => sum + (parseFloat(component.feeAmount) || 0), 0);
+    const paidAmount = feeDetails.reduce((sum, component) => sum + (parseFloat(component.paidAmount) || 0), 0);
+    const discount = feeDetails.reduce((sum, component) => sum + (parseFloat(component.discount) || 0), 0);
+    const unpaidAmount = totalAmount - paidAmount - discount;
+  
+    return {
+      totalAmount,
+      paidAmount,
+      unpaidAmount,
+    };
+  };
+  
   
   
 

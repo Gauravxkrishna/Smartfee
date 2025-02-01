@@ -10,6 +10,7 @@ router.post('/studentLogin', loginHandler); // Login route for user authenticati
 
 // POST: Create a new student
 // POST: Create or Update Student
+// POST: Create or Update Student
 router.post('/addStudent', async (req, res) => {
   const { 
     name, 
@@ -37,17 +38,16 @@ router.post('/addStudent', async (req, res) => {
   }
 
   try {
-    // ✅ Check if a student with this rollNumber already exists
     let student = await Student.findOne({ rollNumber });
 
     if (student) {
-      // ✅ If student exists, update the fee details
+      // Update feeDetails and feeSummary
       student.feeDetails = feeDetails;
+      student.feeSummary = calculateFeeSummary(feeDetails);
       await student.save();
       return res.status(200).json({ data: student, message: 'Student updated with new fee details' });
     }
 
-    // ✅ If no student exists, create a new one
     const newStudent = new Student({
       name,
       degree,
@@ -58,6 +58,7 @@ router.post('/addStudent', async (req, res) => {
       institute,
       feeDetails,
       role: 'student',
+      feeSummary: calculateFeeSummary(feeDetails), // Save fee summary
     });
 
     await newStudent.save();
@@ -67,6 +68,32 @@ router.post('/addStudent', async (req, res) => {
     res.status(500).json({ message: 'Server error. Please try again later.' });
   }
 });
+
+// Helper function to calculate fee summary
+const calculateFeeSummary = (feeDetails) => {
+  // Ensure feeDetails is an array and is not empty
+  if (!Array.isArray(feeDetails) || feeDetails.length === 0) {
+    return {
+      totalAmount: 0,
+      paidAmount: 0,
+      unpaidAmount: 0,
+    };
+  }
+
+  // Now it's safe to use reduce
+  const totalAmount = feeDetails.reduce((sum, component) => sum + (parseFloat(component.feeAmount) || 0), 0);
+  const paidAmount = feeDetails.reduce((sum, component) => sum + (parseFloat(component.paidAmount) || 0), 0);
+  const discount = feeDetails.reduce((sum, component) => sum + (parseFloat(component.discount) || 0), 0);
+  const unpaidAmount = totalAmount - paidAmount - discount;
+
+  return {
+    totalAmount,
+    paidAmount,
+    unpaidAmount,
+  };
+};
+
+
 
 
 
