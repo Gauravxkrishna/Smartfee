@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { ArrowLeft, Mail, Phone, Save, XCircle, Plus, Trash } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useStudentContext } from './StudentContext';
+import axios from 'axios';
+
 
 function EditFeePage() {
   const navigate = useNavigate();
@@ -57,10 +59,35 @@ function EditFeePage() {
     localStorage.setItem('feeComponents', JSON.stringify(newComponents));  // Save to localStorage
   };
 
-  const handleSave = () => {
-    localStorage.setItem('feeComponents', JSON.stringify(feeComponents));
-    navigate('/student/FeeSummaryPage');
+  const handleSave = async () => {
+    try {
+      const response = await axios.post('http://localhost:5000/api/students/addStudent', {
+        name: addedStudentName,
+        degree: AddedStudentDegree,
+        course: AddedStudentCourse,
+        academicYear: "2024", // Add actual year input dynamically if needed
+        rollNumber: AddedStudentRoll,
+        primaryContact: {
+          name: addedStudentName,
+          number: AddedStudentNumber,
+          email: AddedStudentEmail,
+        },
+        institute: selectedInstitute,
+        feeDetails: feeComponents, // Save fee details
+      });
+  
+      console.log("Student saved successfully:", response.data);
+      navigate('/student/FeeSummaryPage'); // Redirect on success
+    } catch (error) {
+      if (error.response) {
+        console.error("Error saving student:", error.response.data.message);
+      } else {
+        console.error("Server error:", error.message);
+      }
+    }
   };
+  
+  
 
   const calculateTotal = (field) => {
     return feeComponents.reduce((sum, component) => sum + (parseFloat(component[field]) || 0), 0);
