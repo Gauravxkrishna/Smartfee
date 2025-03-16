@@ -9,6 +9,8 @@ const { loginHandler } = require('../controllers/Auth/StudentLogin');
 router.post('/studentLogin', loginHandler); // Login route for user authentication
 
 // POST: Create a new student
+// POST: Create or Update Student
+// POST: Create or Update Student
 router.post('/addStudent', async (req, res) => {
   const { 
     name, 
@@ -17,10 +19,10 @@ router.post('/addStudent', async (req, res) => {
     academicYear, 
     rollNumber, 
     primaryContact, 
-    institute 
+    institute,
+    feeDetails 
   } = req.body;
 
-  // Validate required fields
   if (
     !name || 
     !degree || 
@@ -36,6 +38,16 @@ router.post('/addStudent', async (req, res) => {
   }
 
   try {
+    let student = await Student.findOne({ rollNumber });
+
+    if (student) {
+      // Update feeDetails and feeSummary
+      student.feeDetails = feeDetails;
+      student.feeSummary = calculateFeeSummary(feeDetails);
+      await student.save();
+      return res.status(200).json({ data: student, message: 'Student updated with new fee details' });
+    }
+
     const newStudent = new Student({
       name,
       degree,
@@ -44,19 +56,46 @@ router.post('/addStudent', async (req, res) => {
       rollNumber,
       primaryContact,
       institute,
-      role: 'student' // Set the role to 'student' for every new student
+      feeDetails,
+      role: 'student',
+      feeSummary: calculateFeeSummary(feeDetails), // Save fee summary
     });
 
     await newStudent.save();
-    res.status(201).json({
-      data: newStudent,
-      message: 'Student added successfully'
-    });
+    res.status(201).json({ data: newStudent, message: 'Student added successfully' });
   } catch (error) {
     console.error("Error saving student:", error);
     res.status(500).json({ message: 'Server error. Please try again later.' });
   }
 });
+
+// Helper function to calculate fee summary
+const calculateFeeSummary = (feeDetails) => {
+  // Ensure feeDetails is an array and is not empty
+  if (!Array.isArray(feeDetails) || feeDetails.length === 0) {
+    return {
+      totalAmount: 0,
+      paidAmount: 0,
+      unpaidAmount: 0,
+    };
+  }
+
+  // Now it's safe to use reduce
+  const totalAmount = feeDetails.reduce((sum, component) => sum + (parseFloat(component.feeAmount) || 0), 0);
+  const paidAmount = feeDetails.reduce((sum, component) => sum + (parseFloat(component.paidAmount) || 0), 0);
+  const discount = feeDetails.reduce((sum, component) => sum + (parseFloat(component.discount) || 0), 0);
+  const unpaidAmount = totalAmount - paidAmount - discount;
+
+  return {
+    totalAmount,
+    paidAmount,
+    unpaidAmount,
+  };
+};
+
+
+
+
 
 // GET: Get all students
 router.get('/students', async (req, res) => {
