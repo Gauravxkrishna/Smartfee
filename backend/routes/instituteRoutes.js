@@ -6,7 +6,7 @@ const { createInstitute } = require('../controllers/CreateInstitute');
 const { updateInstitute } = require('../controllers/UpdateInstitute');
 const { deleteInstitute } = require('../controllers/DeleteInstitute');
 const { loginHandler } = require('../controllers/Auth/instituteLogin'); // Import your login controller
-const {auth, isStudent, isInstitute} = require("../middleware/auth")
+const {auth, isStudent, isInstitute} = require("../middleware/auth");
 
 // Define the POST and DELETE routes
 router.post('/createInstitute', createInstitute);
@@ -37,8 +37,5 @@ router.get("/institute", auth,isInstitute, (req,res)=>{
         message:"Welcome in institute route."
     })
 })
-
-
-
 
 module.exports = router;

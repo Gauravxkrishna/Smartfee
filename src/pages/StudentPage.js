@@ -161,12 +161,12 @@ export default function StudentManagement() {
       </header>
       <main className="flex-1 p-4 bg-gray-100">
         <div className="flex flex-wrap gap-2 mb-4">
-        <Input
-        className="w-40"
-        placeholder="Search by name, institute, or roll number"
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-      />
+          <Input
+            className="w-40"
+            placeholder="Search by name, institute, or roll number"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
           <Button className="bg-blue-900 hover:bg-blue-700" onClick={downloadExcel}>
             Download Excel
           </Button>
@@ -348,11 +348,12 @@ export default function StudentManagement() {
 
     return (
       <div className="flex flex-col h-screen bg-gray-100">
-        <header className="bg-blue-600 text-white p-4 flex items-center">
+        <header className="bg-blue-600 text-black p-4 flex items-center">
           <Button variant="ghost" className="mr-2" onClick={() => setView('students')}>
-            <ArrowLeft className="h-6 w-6" />
+            <ArrowLeft className="h-6 w-6 text-white  " />
           </Button>
-          <h1 className="text-xl font-semibold">Create Student</h1>
+
+          <h1 className="text-xl  font-semibold">Create Student</h1>
         </header>
         <div className="flex-1 overflow-auto p-6">
           <h2 className="text-lg font-semibold mb-2">{selectedInstitute}</h2>

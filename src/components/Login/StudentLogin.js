@@ -11,7 +11,7 @@ const StudentLogin = () => {
     e.preventDefault();
     try {
       // Post the login credentials to the backend
-      const response = await axios.post('http://localhost:5000/api/v1/student-Login', { 
+      const response = await axios.post('http://localhost:5000/api/students/student-Login', { 
         email, 
         password 
       });
