@@ -1,76 +1,81 @@
-// auth, isStudent, isAdmin
-
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
-exports.auth =(req, res, next)=>{
-    try {
-        //extract JWT token
+// Middleware to authenticate users
+exports.auth = (req, res, next) => {
+  try {
+    // Extract JWT token from cookies, body, or headers
+    console.log("Cookie:", req.cookies.token);
+    console.log("Body:", req.body.token);
+    console.log("Header:", req.header("Authorization")); // Safest way to fetch token
 
-        console.log("cookie,", req.cookies.token);
-        console.log("body",  req.body.token);
-        console.log("header", req.header("Authorization")); //safest way to fetch token
+    const token =
+      req.cookies.token ||
+      req.body.token ||
+      req.header("Authorization")?.replace("Bearer ", "");
 
-        const token =req.cookie.token || req.body.token || req.header("Authorization").replace("Beerer", "");
-
-        if(!token){
-            return res.status(401).json({
-                success:true,
-                message:"Token Missing."
-
-            })
-        }
-        
-        // verify the token
-        try {
-            const payload = jwt.verify(token, process.env.JWT_SECRET);
-            console.log(payload)
-            //why this ?
-            req.user = payload;
-        } catch (error) {
-            return res.status(401).json({
-                success : false,
-                message:'token is invalid',
-            })
-        }
-
-        next();
-    } catch (error) {
-        
+    if (!token) {
+      return res.status(401).json({
+        success: false,
+        message: "Token missing.",
+      });
     }
+
+    // Verify the token
+    try {
+      const payload = jwt.verify(token, process.env.JWT_SECRET);
+      req.user = payload; // Attach the payload to the request object
+    } catch (error) {
+      return res.status(401).json({
+        success: false,
+        message: "Invalid token.",
+      });
+    }
+
+    next();
+  } catch (error) {
+    console.error("Error in auth middleware:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Authentication failed.",
+    });
+  }
 };
 
-
-exports.isStudent =(req,res,next)=>{
-    try {
-        if(req.user.role != "student"){
-            return res.status(401).json({
-                success:false,
-                message:"This is a protected route for student."
-            });
-        }
-        next();
-    } catch (error) {
-        return res.status(500).json({
-            success:false,
-            message:"User role is not matching."
-        })
+// Middleware to check if the user is a student
+exports.isStudent = (req, res, next) => {
+  try {
+    if (req.user.role !== "student") {
+      return res.status(401 ).json({
+        success: false,
+        message: "Access denied. This route is for students only.",
+      });
     }
+    next();
+  } catch (error) {
+    console.error("Error in isStudent middleware:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Role verification failed.",
+    });
+  }
 };
 
-exports.isInstitute =(req,res,next)=>{
-    try {
-        if(req.user.role != "institute"){
-            return res.status(401).json({
-                success:false,
-                message:"This is a protected route for institute."
-            });
-        }
-        next();
-    } catch (error) {
-        return res.status(500).json({
-            success:false,
-            message:"User role is not matching."
-        })
+// Middleware to check if the user is an institute
+exports.isInstitute = (req, res, next) => {
+  try {
+    if (req.user.role !== "institute") {
+      return res.status(403).json({
+        success: false,
+        message: "Access denied. This route is for institutes only.",
+      });
     }
+    next();
+  } catch (error) {
+    console.error("Error in isInstitute middleware:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Role verification failed.",
+    });
+  }
 };

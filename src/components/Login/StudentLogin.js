@@ -11,7 +11,11 @@ const StudentLogin = () => {
     e.preventDefault();
     try {
       // Post the login credentials to the backend
+<<<<<<< HEAD
       const response = await axios.post('https://smartfee-kappa.vercel.app/api/v1/student-Login', { 
+=======
+      const response = await axios.post('http://localhost:5000/api/students/student-Login', { 
+>>>>>>> b22befe95ac5044173c88733759ebfda55d4eb73
         email, 
         password 
       });
