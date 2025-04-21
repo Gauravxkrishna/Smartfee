@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { ArrowLeft, Mail, Phone, Save, XCircle, Plus, Trash } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useStudentContext } from './StudentContext';
+import { calculateInstallments } from './calculate-installments';
+
+
 import axios from 'axios';
 
 
@@ -16,6 +19,7 @@ function EditFeePage() {
     { name: 'Hostel Fee', feeAmount: '240000', paidAmount: '0', discount: '0', payableFee: 240000 },
     { name: 'Uniform Fee', feeAmount: '0', paidAmount: '0', discount: '0', payableFee: 0 },
   ]);
+  const [installments, setInstallments] = useState([]); // Initialize empty installments
 
   // Retrieve the fee components from localStorage or default to originalComponents
   const [feeComponents, setFeeComponents] = useState(() => {
@@ -60,35 +64,38 @@ function EditFeePage() {
   };
 
   const handleSave = async () => {
-    const feeSummary = calculateFeeSummary(feeComponents);
-  
-    try {
-      const response = await axios.post('http://localhost:5000/api/students/addStudent', {
+  const feeSummary = calculateFeeSummary(feeComponents);
+
+  try {
+    const response = await axios.post("https://smartfee-kappa.vercel.app/api/students/addStudent", {
+      name: addedStudentName,
+      degree: AddedStudentDegree,
+      course: AddedStudentCourse,
+      academicYear: "2024",
+      rollNumber: AddedStudentRoll,
+      primaryContact: {
         name: addedStudentName,
-        degree: AddedStudentDegree,
-        course: AddedStudentCourse,
-        academicYear: "2024", // Add actual year input dynamically if needed
-        rollNumber: AddedStudentRoll,
-        primaryContact: {
-          name: addedStudentName,
-          number: AddedStudentNumber,
-          email: AddedStudentEmail,
-        },
-        institute: selectedInstitute,
-        feeDetails: feeComponents, // Save fee details
-        feeSummary: feeSummary, // Save fee summary
-      });
-  
-      console.log("Student saved successfully:", response.data);
-      navigate('/student/FeeSummaryPage'); // Redirect on success
-    } catch (error) {
-      if (error.response) {
-        console.error("Error saving student:", error.response.data.message);
-      } else {
-        console.error("Server error:", error.message);
-      }
+        number: AddedStudentNumber,
+        email: AddedStudentEmail,
+      },
+      institute: selectedInstitute,
+      feeDetails: feeComponents, // Save fee details
+      feeSummary: feeSummary, // Save fee summary
+      installments: installments, // Save the updated installment details
+    });
+
+    console.log("Student saved successfully:", response.data);
+    navigate("/student/FeeSummaryPage"); // Redirect on success
+  } catch (error) {
+    if (error.response) {
+      console.error("Error saving student:", error.response.data.message);
+    } else {
+      console.error("Server error:", error.message);
     }
-  };
+  }
+};
+
+  
   
   // Helper function to calculate fee summary
   const calculateFeeSummary = (feeDetails) => {

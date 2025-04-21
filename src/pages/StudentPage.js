@@ -33,7 +33,7 @@ export default function StudentManagement() {
 
   const fetchStudents = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/students/students');
+      const response = await axios.get('https://smartfee-kappa.vercel.app/api/students/students');
       setStudents(response.data);
     } catch (error) {
       console.error("Error fetching students:", error);
@@ -49,7 +49,7 @@ export default function StudentManagement() {
 
   const deleteStudent = async (studentId) => {
     try {
-      await axios.delete(`http://localhost:5000/api/students/deleteStudent/${studentId}`);
+      await axios.delete(`https://smartfee-kappa.vercel.app/api/students/deleteStudent/${studentId}`);
       setStudents((prevStudents) => prevStudents.filter((student) => student._id !== studentId));
       alert("Student deleted successfully.");
     } catch (error) {
@@ -252,7 +252,7 @@ export default function StudentManagement() {
 
   const saveEditedStudent = async () => {
     try {
-      await axios.put(`http://localhost:5000/api/students/updateStudent/${editStudentData._id}`, editStudentData);
+      await axios.put(`https://smartfee-kappa.vercel.app/api/students/updateStudent/${editStudentData._id}`, editStudentData);
       setStudents((prevStudents) =>
         prevStudents.map((student) =>
           student._id === editStudentData._id ? editStudentData : student
@@ -327,7 +327,7 @@ export default function StudentManagement() {
       };
 
       try {
-        const response = await axios.post('http://localhost:5000/api/students/addStudent', studentData, {
+        const response = await axios.post('https://smartfee-kappa.vercel.app/api/students/addStudent', studentData, {
           headers: {
             'Content-Type': 'application/json'
           }
