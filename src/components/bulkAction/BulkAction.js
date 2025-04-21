@@ -19,7 +19,7 @@ const BulkAction = () => {
         formData.append('file', file);
 
         try {
-            const response = await axios.post('http://localhost:5000/upload', formData, {
+            const response = await axios.post('https://smartfee-kappa.vercel.app/upload', formData, {
                 headers: { 'Content-Type': 'multipart/form-data' },
             });
             setMessage(response.data.message);

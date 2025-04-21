@@ -9,7 +9,7 @@ const AddStudentPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:5000/api/students', {
+      await axios.post('https://smartfee-kappa.vercel.app/api/students', {
         name: studentName,
         course,
         academicYear,

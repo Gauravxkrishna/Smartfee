@@ -30,7 +30,7 @@ const InstituteLoginForm = () => {
     setErrorMessage(''); // Clear previous error message
 
     try {
-      const response = await axios.post('http://localhost:5000/api/v1/instituteLogin', { email, password });
+      const response = await axios.post('https://smartfee-kappa.vercel.app/api/v1/instituteLogin', { email, password });
 
       if (response.status === 200) {
         navigate('/institute');

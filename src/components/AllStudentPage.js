@@ -10,7 +10,7 @@ const AllStudentPage = () => {
   useEffect(() => {
     const fetchStudents = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/students');
+        const response = await axios.get('https://smartfee-kappa.vercel.app/api/students');
         setStudents(response.data);
       } catch (error) {
         console.error('Error fetching students:', error);

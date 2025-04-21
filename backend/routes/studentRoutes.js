@@ -11,7 +11,7 @@ router.post('/studentLogin', loginHandler); // Login route for user authenticati
 // POST: Create a new student
 // POST: Create or Update Student
 // POST: Create or Update Student
-router.post('/addStudent', async (req, res) => {
+router.post("/addStudent", async (req, res) => {
   const { 
     name, 
     degree, 
@@ -20,7 +20,8 @@ router.post('/addStudent', async (req, res) => {
     rollNumber, 
     primaryContact, 
     institute,
-    feeDetails 
+    feeDetails,
+    installments // Receiving installment details from frontend
   } = req.body;
 
   if (
@@ -34,18 +35,19 @@ router.post('/addStudent', async (req, res) => {
     !primaryContact?.email || 
     !institute
   ) {
-    return res.status(400).json({ message: 'All fields are required.' });
+    return res.status(400).json({ message: "All fields are required." });
   }
 
   try {
     let student = await Student.findOne({ rollNumber });
 
     if (student) {
-      // Update feeDetails and feeSummary
+      // Update feeDetails, feeSummary, and installments if student already exists
       student.feeDetails = feeDetails;
       student.feeSummary = calculateFeeSummary(feeDetails);
+      student.installments = installments; // Updating installment details
       await student.save();
-      return res.status(200).json({ data: student, message: 'Student updated with new fee details' });
+      return res.status(200).json({ data: student, message: "Student updated with new fee and installment details" });
     }
 
     const newStudent = new Student({
@@ -57,17 +59,19 @@ router.post('/addStudent', async (req, res) => {
       primaryContact,
       institute,
       feeDetails,
-      role: 'student',
+      role: "student",
       feeSummary: calculateFeeSummary(feeDetails), // Save fee summary
+      installments, // Save installment details
     });
 
     await newStudent.save();
-    res.status(201).json({ data: newStudent, message: 'Student added successfully' });
+    res.status(201).json({ data: newStudent, message: "Student added successfully with installment details" });
   } catch (error) {
     console.error("Error saving student:", error);
-    res.status(500).json({ message: 'Server error. Please try again later.' });
+    res.status(500).json({ message: "Server error. Please try again later." });
   }
 });
+
 
 // Helper function to calculate fee summary
 const calculateFeeSummary = (feeDetails) => {
